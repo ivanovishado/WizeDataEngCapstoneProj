@@ -1,0 +1,8 @@
+/dags
+/logs
+airflow.cfg
+airflow.db
+standalone*
+webserver_config*
+.terraform
+.DS_Store
