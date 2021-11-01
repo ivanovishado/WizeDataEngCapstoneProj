@@ -1,36 +1,65 @@
-resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/24"
+module "networking" {
+  source = "./modules/networking"
+
+  vpc_cidr             = var.vpc_cidr
+  public_subnets_cidr  = var.public_subnets_cidr
+  private_subnets_cidr = var.private_subnets_cidr
+  availability_zone    = var.availability_zone
 }
 
-resource "aws_internet_gateway" "gw" {
-  vpc_id = aws_vpc.main.id
+module "eks" {
+  source = "./modules/eks"
+
+  vpc_id_eks = module.networking.vpc_id
+  subnet     = module.networking.private_subnets_ids
+
+  cluster_name    = var.cluster_name
+  cluster_version = var.cluster_version
+
+  instance_type_group1        = var.instance_type_group1
+  instance_type_group2        = var.instance_type_group2
+  asg_desired_capacity_group1 = var.asg_desired_capacity_group1
+  asg_desired_capacity_group2 = var.asg_desired_capacity_group2
 }
 
-resource "aws_subnet" "main" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.0.0/25"
-}
+# module "ec2" {
+#   source = "./modules/ec2"
 
-resource "aws_subnet" "secondary" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.0.128/25"
-}
+#   vpc_id_ec2                     = module.networking.vpc_id
+#   subnet_id                      = module.networking.public_subnets_ids
 
-module "airflow" {
-  source = "datarootsio/ecs-airflow/aws"
+#   number_of_instances            = var.number_of_instances
+#   ec2_name                       = var.ec2_name
+#   ec2_security_group_name        = var.ec2_security_group_name
+#   ec2_security_group_description = var.ec2_security_group_description
+#   ec2_ami                        = var.ec2_ami
+#   ec2_instance_type              = var.ec2_instance_type
+# }
 
-  resource_prefix = "my-awsm-company"
-  resource_suffix = "prod" # should go to env file
+# module "rds" {
+#   source = "./modules/rds"
 
-  vpc_id            = aws_vpc.main.id
-  public_subnet_ids = [aws_subnet.main.id, aws_subnet.secondary.id]
+#   vpc_id_rds        = module.networking.vpc_id
+#   subnets_rds        = module.networking.private_subnets_ids
 
-  region = "us-east-2"
+#   allocated_storage   = var.allocated_storage
+#   db_engine           = var.db_engine
+#   db_port             = var.db_port
+#   engine_version      = var.engine_version
+#   instance_type       = var.instance_type
+#   database_name       = var.database_name
+#   db_username         = var.db_username
+#   db_password         = var.db_password
+#   publicly_accessible = var.publicly_accessible
+# }
 
-  airflow_executor = "Sequential"
-  airflow_variables = {
-    AIRFLOW__WEBSERVER__NAVBAR_COLOR : "#e27d60"
-  }
+# module "s3" {
+#   source = "./modules/s3"
 
-  use_https = false
-}
+#   vpc_id_s3   = module.networking.vpc_id
+#   subnet_s3 = module.networking.private_subnets_ids
+
+#   bucket_prefix = var.bucket_prefix
+#   acl           = var.acl
+#   versioning    = var.versioning
+# }

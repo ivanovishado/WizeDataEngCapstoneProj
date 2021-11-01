@@ -1,4 +1,4 @@
-/dags
+__pycache__
 /logs
 airflow.cfg
 airflow.db
@@ -6,3 +6,7 @@ standalone*
 webserver_config*
 .terraform
 .DS_Store
+*.tfstate
+
+# should I commit this?
+kubeconfig*
