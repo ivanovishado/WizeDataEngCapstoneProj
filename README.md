@@ -18,14 +18,51 @@ First, define the `AIRFLOW_HOME` env variable to wherever you installed it. Then
 airflow standalone
 ```
 
+## Get cluster up and running
+
+### Terraform
+
+1. Move to `terraform` directory.
+1. `terraform init`
+1. `terraform plan`
+1. `terraform apply --var-file=terraform.tfvars` if there were no errors with plan.
+
+### Kubernetes & Helm
+
+Run the following commands:
+
+```sh
+aws eks --region $(terraform output -raw region) update-kubeconfig --name $(terraform output -raw cluster_name)
+
+export NFS_SERVER=$(terraform output -raw efs)
+
+kubectl create namespace storage
+
+helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+
+helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \
+    --namespace storage \
+    --set nfs.server=$NFS_SERVER \
+    --set nfs.path=/
+
+kubectl create namespace airflow
+
+helm repo add apache-airflow https://airflow.apache.org
+
+helm install airflow -f ../airflow-values.yaml apache-airflow/airflow --namespace airflow
+```
+
 ## Complications during development
 
 - Knowing how and where to start with Terraform
   - Resources were great, but it was a challenge to understand everything that was in the provided examples to know how to use it appropriately.
 - Needing to change the Terraform version I was using. (Solved with `tfswitch`)
 - Resources don't appear to be deleted when running `terraform destroy`
+- Switched to EKS because of the following reasons:
+  - The other TF approaches didn't work.
+  - Resources were not being deleted in their entirety with the other approaches.
 
-## Notes
+## TODOs
 
 Should add Docker to test locally (make sure that the major versions match)
 
