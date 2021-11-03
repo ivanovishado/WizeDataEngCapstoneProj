@@ -18,7 +18,7 @@ dags:
     # git@github.com:apache/airflow.git
     # https example: https://github.com/apache/airflow.git
     repo: https://github.com/ivanovishado/WizeDataEngCapstoneProj
-    branch: main
+    branch: second-deliverable
     rev: HEAD
     depth: 1
     # the number of consecutive failures allowed before aborting
@@ -37,9 +37,9 @@ logs:
     storageClassName: nfs-client
 
 secret:
-  - envName: "AIRFLOW_RDS_HOST"
-    secretName: "my-airflow-rds-host"
-    secretKey: "AIRFLOW_RDS_HOST"
+  - envName: "AIRFLOW_RDS_ENDPOINT"
+    secretName: "my-airflow-rds-endpoint"
+    secretKey: "AIRFLOW_RDS_ENDPOINT"
   - envName: "AIRFLOW_RDS_USER"
     secretName: "my-airflow-rds-user"
     secretKey: "AIRFLOW_RDS_USER"

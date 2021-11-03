@@ -1,10 +1,10 @@
 extraSecrets:
-  my-airflow-rds-host:
+  my-airflow-rds-endpoint:
     data: |
-      AIRFLOW_RDS_HOST: '<host>'
+      AIRFLOW_RDS_ENDPOINT: 'base64(<endpoint>)'
   my-airflow-rds-user:
     data: |
-      AIRFLOW_RDS_USER: '<user>'
+      AIRFLOW_RDS_USER: 'base64(<user>)'
   my-airflow-rds-pass:
     data: |
-      AIRFLOW_RDS_PASS: '<pass>'
+      AIRFLOW_RDS_PASS: 'base64(<pass>)'
