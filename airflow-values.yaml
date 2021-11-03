@@ -35,3 +35,14 @@ logs:
     size: 1Gi
     # If using a custom storageClass, pass name here
     storageClassName: nfs-client
+
+secret:
+  - envName: "AIRFLOW_RDS_HOST"
+    secretName: "my-airflow-rds-host"
+    secretKey: "AIRFLOW_RDS_HOST"
+  - envName: "AIRFLOW_RDS_USER"
+    secretName: "my-airflow-rds-user"
+    secretKey: "AIRFLOW_RDS_USER"
+  - envName: "AIRFLOW_RDS_PASS"
+    secretName: "my-airflow-rds-pass"
+    secretKey: "AIRFLOW_RDS_PASS"

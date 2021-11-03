@@ -11,3 +11,7 @@ output "cluster_name" {
 output "efs" {
   value = module.eks.efs
 }
+
+output "rds_endpoint" {
+  value = module.rds.rds_endpoint
+}

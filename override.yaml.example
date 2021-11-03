@@ -1,0 +1,10 @@
+extraSecrets:
+  my-airflow-rds-host:
+    data: |
+      AIRFLOW_RDS_HOST: '<host>'
+  my-airflow-rds-user:
+    data: |
+      AIRFLOW_RDS_USER: '<user>'
+  my-airflow-rds-pass:
+    data: |
+      AIRFLOW_RDS_PASS: '<pass>'
