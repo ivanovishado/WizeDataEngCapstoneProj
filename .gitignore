@@ -7,6 +7,7 @@ webserver_config*
 .terraform
 .DS_Store
 *tfstate*
+override.yaml
 
 # should I commit this?
 kubeconfig*

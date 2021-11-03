@@ -48,9 +48,13 @@ helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs
 kubectl create namespace airflow
 
 helm repo add apache-airflow https://airflow.apache.org
-
-helm install airflow -f ../airflow-values.yaml apache-airflow/airflow --namespace airflow
 ```
+
+### Installing Airflow
+
+1. Create `override.yaml` at the project's root.
+1. Insert the variables that are missing based on the `override.yaml.example` file.
+1. Run `helm install airflow -f ../airflow-values.yaml -f ../override.yaml apache-airflow/airflow --namespace airflow`
 
 ## Complications during development
 
@@ -61,9 +65,12 @@ helm install airflow -f ../airflow-values.yaml apache-airflow/airflow --namespac
 - Switched to EKS because of the following reasons:
   - The other TF approaches didn't work.
   - Resources were not being deleted in their entirety with the other approaches.
+- I had to use a hardcoded bucket name to be able to re-upload resources consistently after destroying the services in AWS.
 
 ## TODOs
 
 Should add Docker to test locally (make sure that the major versions match)
 
 Remember to try https://diagrams.mingrammer.com/!
+
+To send info to Postgres: https://stackoverflow.com/a/55495065
