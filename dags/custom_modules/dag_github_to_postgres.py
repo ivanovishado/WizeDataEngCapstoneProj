@@ -19,20 +19,21 @@ class GitHubToPostgresTransfer(BaseOperator):
     @apply_defaults
     def __init__(
             self,
-            username,
-            password,
-            endpoint,
+            # username,
+            # password,
+            # endpoint,
             *args, **kwargs):
         super(GitHubToPostgresTransfer, self).__init__(*args, **kwargs)
-        self.username = username
-        self.password = password
-        self.endpoint = endpoint
+        # self.username = username
+        # self.password = password
+        # self.endpoint = endpoint
 
     def execute(self, context):
         df = pd.read_csv("https://raw.githubusercontent.com/ivanovishado/WizeDataEngCapstoneProj/main/user_purchase.csv")
 
-        engine = create_engine(f'postgresql://{self.username}:{self.password}@{self.endpoint}/user_purchase')
-        df.to_sql('user_purchase', engine, method=self.psql_insert_copy)
+        # engine = create_engine(f'postgresql://{self.username}:{self.password}@{self.endpoint}/user_purchase')
+        engine = create_engine(f'postgresql://ivan.galaviz@host.docker.internal:5432/ivan.galaviz')
+        df.to_sql('user_purchase', engine, method=self.psql_insert_copy, if_exists='replace')
 
     def psql_insert_copy(self, table, conn, keys, data_iter):
         dbapi_conn = conn.connection
