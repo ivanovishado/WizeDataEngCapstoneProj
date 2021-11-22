@@ -50,11 +50,15 @@ kubectl create namespace airflow
 helm repo add apache-airflow https://airflow.apache.org
 ```
 
-### Installing Airflow
+### Installing Airflow on Kubernetes
 
 1. Create `override.yaml` at the project's root.
 1. Insert the variables that are missing based on the `override.yaml.example` file.
 1. Run `helm install airflow -f ../airflow-values.yaml -f ../override.yaml apache-airflow/airflow --namespace airflow`
+
+### Considerations while testing on the local environment
+
+Use this URL to connect to the PostgreSQL instance: `postgresql://ivan.galaviz@host.docker.internal:5432/ivan.galaviz`
 
 ## Complications during development
 

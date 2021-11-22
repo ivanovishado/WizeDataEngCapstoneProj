@@ -28,6 +28,7 @@ class GitHubToPostgresTransfer(BaseOperator):
         # self.password = password
         # self.endpoint = endpoint
 
+    # Processing ideally shouldn't happen here
     def execute(self, context):
         df = pd.read_csv("https://raw.githubusercontent.com/ivanovishado/WizeDataEngCapstoneProj/main/user_purchase.csv")
 
@@ -52,3 +53,10 @@ class GitHubToPostgresTransfer(BaseOperator):
             sql = 'COPY {} ({}) FROM STDIN WITH CSV'.format(
                 table_name, columns)
             cur.copy_expert(sql=sql, file=s_buf)
+
+
+# NOTES
+# RDS: Transactional database, used to store mainly
+# Redshift: Analytics database, years of data
+# Import .parquet files from staging layer to Redshift, no need of Spark
+# Check: https://towardsdatascience.com/how-to-create-and-run-an-emr-cluster-using-aws-cli-3a78977dc7f0#5b72

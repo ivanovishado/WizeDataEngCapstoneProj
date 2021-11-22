@@ -1,8 +1,8 @@
 -- create user_purchase table
 
--- InvoiceNo,StockCode,Description,Quantity,InvoiceDate,UnitPrice,CustomerID,Country
+CREATE DATABASE awesome_db;
 
-CREATE TABLE IF NOT EXISTS user_purchase (
+CREATE TABLE IF NOT EXISTS awesome_db.user_purchase (
     invoice_no INT NOT NULL,
     stock_code VARCHAR NOT NULL,
     description VARCHAR NOT NULL,
