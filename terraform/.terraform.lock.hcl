@@ -77,6 +77,47 @@ provider "registry.terraform.io/hashicorp/local" {
   ]
 }
 
+provider "registry.terraform.io/houqp/airflow" {
+  version     = "0.2.1"
+  constraints = "0.2.1"
+  hashes = [
+    "h1:PIzPOEJkPC2wFKrnCr2ZeSJsU26yhufU1GR0ZFgGQUA=",
+    "zh:01214ce72d93fdaad20f9405bc73721e95ce8b214b24f58b3595285d0ac8970d",
+    "zh:2feaadf03302836f4cae75f4b5d578bf17d8863f0a3d562520edaaaab0535d6e",
+    "zh:3d50881ea34fa35b0fb2a0fad3938ac9ef6bd53cddf6a70f33e63ee2ba18b97d",
+    "zh:498ce5bab731a034522a62ac4b47abefef1cc4877ae669b9f8a6273e45edd637",
+    "zh:859d3e9a3b7b61c784e44870f7339112f3b2e84eb20cb080f8dca9c5fd63a0ac",
+    "zh:8803d2c6e0ba9c965a72347e794ac59bb1ec63c25640d7b6636f3339032e9dce",
+    "zh:9bb8682b2c7469128d7de62b2c9cebd92117b8e370099013cf8073a5e9f4aea0",
+    "zh:c2b08bd29e11af7d8065c50c1da5a9ad096e1b04259e9ae50e7357a4e5e6b54e",
+    "zh:df6b10d75aab1ca0488a02113854b24953aa2314dc9d44feb97836b19d9c2e49",
+    "zh:dfb277e9df3ad038fd193b12ae1ca156aa4c70c0ead2715496c38c6ea210ceaf",
+    "zh:e5972a78bfd868349a8e4b1259afb2b6a969974a07efa6de9d7235d92573be34",
+  ]
+}
+
+provider "registry.terraform.io/jrhouston/dotenv" {
+  version     = "1.0.1"
+  constraints = "~> 1.0"
+  hashes = [
+    "h1:Lt56KTFp8f8Q6CzWCqzJ2I7dlDwShKtLYChZPXFLmQA=",
+    "zh:14e0d4864866259cd8f660fc99fb62c4bbef0e88be426a547bcb8faf8cbc2753",
+    "zh:1dfe5ec2ca772ad94b0a49734c9f173a84ccf65f46ee0e97542de9e8ef9736fc",
+    "zh:315a570bf5f20017f16afec0be1a5c4939a7cca4798ce59aec0e97f481bebba3",
+    "zh:386155dc3791f177c04e5968ab79570b7373258d24a8a4e0265968f97cab1288",
+    "zh:3ad4617ad7aa209a237c71fe1eead73a56eab85c421d1aad937e0cc9682cec8e",
+    "zh:59c1a26e1a70b11811f6f0281edf673ef140c67655c7131e5495fda48d316d62",
+    "zh:657ac83e69064b89bfa7a4a692c1c0525b4a8e23b2cdb0685dff07e4479af081",
+    "zh:6c6f4acaf9c5ba1b63d77da3173d828add9c1d4059d93596f3842d7ca79efdae",
+    "zh:6de21bd8c3cbdb468d3c32c11df33e8e3c26b12758e0a76eeb345c7bfba212b8",
+    "zh:afecbb9b052079b2ea8cdca3001714c8ed2d023d397e7e5626cf6df70c471b7f",
+    "zh:ba487d781c66dd392f40588d1bf277997d7b7f8e8738e9048a0f48c536fb5fd8",
+    "zh:c9f63aefe4a8973e9f1f7d2280340713e1d2c65dfc672495526653d5207df349",
+    "zh:ddffbc4c5d1987834dd4899f5d794cbd6d5f09894666f4a9357bce2b0b4de8a8",
+    "zh:f631fc8519c3651fc8f5f21262aaf5b49640a04c1482ac33cac770f7a3a2cc99",
+  ]
+}
+
 provider "registry.terraform.io/terraform-aws-modules/http" {
   version     = "2.4.1"
   constraints = ">= 2.4.1"

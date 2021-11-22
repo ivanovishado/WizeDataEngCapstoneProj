@@ -22,6 +22,8 @@ airflow standalone
 
 ### Terraform
 
+**Note**: Before anything else, please create the `.env` file in the same location as the `.env.sample` file, following its contents.
+
 1. Move to `terraform` directory.
 1. `terraform init`
 1. `terraform plan`
@@ -58,7 +60,7 @@ helm repo add apache-airflow https://airflow.apache.org
 
 ### Considerations while testing on the local environment
 
-Use this URL to connect to the PostgreSQL instance: `postgresql://ivan.galaviz@host.docker.internal:5432/ivan.galaviz`
+Use this URL to connect to the PostgreSQL instance: `postgresql://ivan.galaviz@host.docker.internal:5432/awesome_db`
 
 ## Complications during development
 

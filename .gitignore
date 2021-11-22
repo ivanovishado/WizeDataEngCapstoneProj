@@ -8,6 +8,7 @@ webserver_config*
 .DS_Store
 *tfstate*
 override.yaml
+.env
 
 # should I commit this?
 kubeconfig*

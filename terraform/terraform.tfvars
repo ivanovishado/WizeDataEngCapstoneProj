@@ -61,8 +61,6 @@ database_name = "dbname"
 
 db_username = "dbuser"
 
-db_password = "dbpassword"
-
 publicly_accessible = false
 
 #### S3 variables ####

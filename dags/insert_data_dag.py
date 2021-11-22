@@ -19,9 +19,9 @@ with DAG('dag_insert_data', default_args = default_args, schedule_interval = '@o
 
     populate_user_purchase_table = GitHubToPostgresTransfer(
         task_id = 'dag_github_to_postgres',
-        # username=Variable.get("AIRFLOW_RDS_USER"),
-        # password=Variable.get("AIRFLOW_RDS_PASS"),
-        # endpoint=Variable.get("AIRFLOW_RDS_ENDPOINT"),
+        username=Variable.get("RDS_USER"),
+        password=Variable.get("RDS_PASS"),
+        endpoint=Variable.get("RDS_ENDPOINT"),
         dag=dag
     )
 
