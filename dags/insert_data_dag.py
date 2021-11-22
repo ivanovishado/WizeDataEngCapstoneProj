@@ -14,6 +14,7 @@ default_args = {
 with DAG('dag_insert_data', default_args = default_args, schedule_interval = '@once') as dag:
     create_user_purchase_table = PostgresOperator(
         task_id="create_user_purchase_table",
+        postgres_conn_id="postgres",
         sql="sql/user_purchase_schema.sql",
     )
 
