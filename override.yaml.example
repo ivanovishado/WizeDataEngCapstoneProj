@@ -1,10 +1,4 @@
 extraSecrets:
-  my-airflow-rds-endpoint:
+  my-airflow-connections:
     data: |
-      AIRFLOW_RDS_ENDPOINT: 'base64(<endpoint>)'
-  my-airflow-rds-user:
-    data: |
-      AIRFLOW_RDS_USER: 'base64(<user>)'
-  my-airflow-rds-pass:
-    data: |
-      AIRFLOW_RDS_PASS: 'base64(<pass>)'
+      AIRFLOW_CONN_POSTGRES_DEFAULT: 'base64(postgres_conn_url)'

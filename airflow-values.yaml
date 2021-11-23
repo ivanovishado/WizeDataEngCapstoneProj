@@ -37,12 +37,6 @@ logs:
     storageClassName: nfs-client
 
 secret:
-  - envName: "AIRFLOW_RDS_ENDPOINT"
-    secretName: "my-airflow-rds-endpoint"
-    secretKey: "AIRFLOW_RDS_ENDPOINT"
-  - envName: "AIRFLOW_RDS_USER"
-    secretName: "my-airflow-rds-user"
-    secretKey: "AIRFLOW_RDS_USER"
-  - envName: "AIRFLOW_RDS_PASS"
-    secretName: "my-airflow-rds-pass"
-    secretKey: "AIRFLOW_RDS_PASS"
+  - envName: "AIRFLOW_CONN_POSTGRES_DEFAULT"
+    secretName: "my-airflow-connections"
+    secretKey: "AIRFLOW_CONN_POSTGRES_DEFAULT"

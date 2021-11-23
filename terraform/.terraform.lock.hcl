@@ -77,25 +77,6 @@ provider "registry.terraform.io/hashicorp/local" {
   ]
 }
 
-provider "registry.terraform.io/houqp/airflow" {
-  version     = "0.2.1"
-  constraints = "0.2.1"
-  hashes = [
-    "h1:PIzPOEJkPC2wFKrnCr2ZeSJsU26yhufU1GR0ZFgGQUA=",
-    "zh:01214ce72d93fdaad20f9405bc73721e95ce8b214b24f58b3595285d0ac8970d",
-    "zh:2feaadf03302836f4cae75f4b5d578bf17d8863f0a3d562520edaaaab0535d6e",
-    "zh:3d50881ea34fa35b0fb2a0fad3938ac9ef6bd53cddf6a70f33e63ee2ba18b97d",
-    "zh:498ce5bab731a034522a62ac4b47abefef1cc4877ae669b9f8a6273e45edd637",
-    "zh:859d3e9a3b7b61c784e44870f7339112f3b2e84eb20cb080f8dca9c5fd63a0ac",
-    "zh:8803d2c6e0ba9c965a72347e794ac59bb1ec63c25640d7b6636f3339032e9dce",
-    "zh:9bb8682b2c7469128d7de62b2c9cebd92117b8e370099013cf8073a5e9f4aea0",
-    "zh:c2b08bd29e11af7d8065c50c1da5a9ad096e1b04259e9ae50e7357a4e5e6b54e",
-    "zh:df6b10d75aab1ca0488a02113854b24953aa2314dc9d44feb97836b19d9c2e49",
-    "zh:dfb277e9df3ad038fd193b12ae1ca156aa4c70c0ead2715496c38c6ea210ceaf",
-    "zh:e5972a78bfd868349a8e4b1259afb2b6a969974a07efa6de9d7235d92573be34",
-  ]
-}
-
 provider "registry.terraform.io/jrhouston/dotenv" {
   version     = "1.0.1"
   constraints = "~> 1.0"

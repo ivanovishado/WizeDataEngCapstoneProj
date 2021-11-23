@@ -141,18 +141,3 @@ variable "asg_desired_capacity_group2" {
 data dotenv dev_config {
   filename = ".env"
 }
-
-resource airflow_variable "RDS_ENDPOINT" {
-  key   = "RDS_ENDPOINT"
-  value = module.rds.rds_endpoint
-}
-
-resource airflow_variable "RDS_USER" {
-  key   = "RDS_USER"
-  value = "dbuser"
-}
-
-resource airflow_variable "RDS_PASS" {
-  key   = "RDS_PASS"
-  value = data.dotenv.dev_config.env.RDS_PASS
-}

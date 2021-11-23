@@ -58,6 +58,10 @@ helm repo add apache-airflow https://airflow.apache.org
 1. Insert the variables that are missing based on the `override.yaml.example` file.
 1. Run `helm install airflow -f ../airflow-values.yaml -f ../override.yaml apache-airflow/airflow --namespace airflow`
 
+Just make sure that everything's up and running with `kubectl get pods -n airflow` and you're done!
+
+After that, you can access the webserver with `kubectl port-forward svc/airflow-webserver 8080:8080 --namespace airflow`
+
 ### Considerations while testing on the local environment
 
 Use this URL to connect to the PostgreSQL instance: `postgresql://ivan.galaviz@host.docker.internal:5432/awesome_db`
