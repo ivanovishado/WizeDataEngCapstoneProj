@@ -1,3 +1,4 @@
 *.csv
 *.md
 /terraform
+*.example
