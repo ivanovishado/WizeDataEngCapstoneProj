@@ -76,7 +76,7 @@ Use this URL to connect to the PostgreSQL instance: `postgresql://ivan.galaviz@h
   - The other TF approaches didn't work.
   - Resources were not being deleted in their entirety with the other approaches.
 - I had to use a hardcoded bucket name to be able to re-upload resources consistently after destroying the services in AWS.
-- Still can't found a way to ignore uploading certain files to Airflow (*.csv, *.md, etc.)
+- Still can't found a way to ignore uploading certain files to Airflow (`*.csv`, `*.md`, etc.)
 
 ## TODOs
 
