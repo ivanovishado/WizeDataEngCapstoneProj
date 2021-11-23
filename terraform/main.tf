@@ -49,7 +49,7 @@ module "rds" {
   instance_type       = var.instance_type
   database_name       = var.database_name
   db_username         = var.db_username
-  db_password         = var.db_password
+  db_password         = data.dotenv.dev_config.env.RDS_PASS
   publicly_accessible = var.publicly_accessible
 }
 

@@ -45,9 +45,6 @@ variable "database_name" {
 variable "db_username" {
   description = "Username credentials for root user"
 }
-variable "db_password" {
-  description = "Password credentials for root user"
-}
 variable "publicly_accessible" {
   description = "Variable that set the instance to be accessible publicly"
 }
@@ -139,4 +136,8 @@ variable "asg_desired_capacity_group1" {
 variable "asg_desired_capacity_group2" {
   default     = 1
   description = "Desired capacity for autoscaling for the group 2"
+}
+
+data dotenv dev_config {
+  filename = ".env"
 }

@@ -1,10 +1,4 @@
 extraSecrets:
-  my-airflow-rds-host:
+  my-airflow-connections:
     data: |
-      AIRFLOW_RDS_HOST: '<host>'
-  my-airflow-rds-user:
-    data: |
-      AIRFLOW_RDS_USER: '<user>'
-  my-airflow-rds-pass:
-    data: |
-      AIRFLOW_RDS_PASS: '<pass>'
+      AIRFLOW_CONN_POSTGRES_DEFAULT: 'base64(postgres_conn_url)'

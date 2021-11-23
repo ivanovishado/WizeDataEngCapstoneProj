@@ -25,7 +25,7 @@ dags:
     maxFailures: 0
     # subpath within the repo where dags are located
     # should be "" if dags are at repo root
-    subPath: "/dags"
+    subPath: "dags"
 
 logs:
   persistence:
@@ -37,12 +37,6 @@ logs:
     storageClassName: nfs-client
 
 secret:
-  - envName: "AIRFLOW_RDS_HOST"
-    secretName: "my-airflow-rds-host"
-    secretKey: "AIRFLOW_RDS_HOST"
-  - envName: "AIRFLOW_RDS_USER"
-    secretName: "my-airflow-rds-user"
-    secretKey: "AIRFLOW_RDS_USER"
-  - envName: "AIRFLOW_RDS_PASS"
-    secretName: "my-airflow-rds-pass"
-    secretKey: "AIRFLOW_RDS_PASS"
+  - envName: "AIRFLOW_CONN_POSTGRES_DEFAULT"
+    secretName: "my-airflow-connections"
+    secretKey: "AIRFLOW_CONN_POSTGRES_DEFAULT"

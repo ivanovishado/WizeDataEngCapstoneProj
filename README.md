@@ -22,6 +22,8 @@ airflow standalone
 
 ### Terraform
 
+**Note**: Before anything else, please create the `.env` file in the same location as the `.env.sample` file, following its contents.
+
 1. Move to `terraform` directory.
 1. `terraform init`
 1. `terraform plan`
@@ -50,11 +52,19 @@ kubectl create namespace airflow
 helm repo add apache-airflow https://airflow.apache.org
 ```
 
-### Installing Airflow
+### Installing Airflow on Kubernetes
 
 1. Create `override.yaml` at the project's root.
 1. Insert the variables that are missing based on the `override.yaml.example` file.
 1. Run `helm install airflow -f ../airflow-values.yaml -f ../override.yaml apache-airflow/airflow --namespace airflow`
+
+Just make sure that everything's up and running with `kubectl get pods -n airflow` and you're done!
+
+After that, you can access the webserver with `kubectl port-forward svc/airflow-webserver 8080:8080 --namespace airflow`
+
+### Considerations while testing on the local environment
+
+Use this URL to connect to the PostgreSQL instance: `postgresql://ivan.galaviz@host.docker.internal:5432/awesome_db`
 
 ## Complications during development
 
@@ -66,6 +76,7 @@ helm repo add apache-airflow https://airflow.apache.org
   - The other TF approaches didn't work.
   - Resources were not being deleted in their entirety with the other approaches.
 - I had to use a hardcoded bucket name to be able to re-upload resources consistently after destroying the services in AWS.
+- Still can't found a way to ignore uploading certain files to Airflow (`*.csv`, `*.md`, etc.)
 
 ## TODOs
 
