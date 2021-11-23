@@ -22,6 +22,7 @@ with DAG('dag_insert_data', default_args = default_args, schedule_interval = '@o
         username=Variable.get("RDS_USER"),
         password=Variable.get("RDS_PASS"),
         endpoint=Variable.get("RDS_ENDPOINT"),
+        dbname=Variable.get("RDS_DBNAME"),
         dag=dag
     )
 
