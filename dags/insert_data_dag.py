@@ -1,6 +1,7 @@
+from airflow.models.base import Base
 import airflow.utils.dates
 from airflow import DAG
-from airflow.models import Variable
+from airflow.hooks.base_hook import BaseHook
 
 from custom_modules.dag_github_to_postgres import GitHubToPostgresTransfer
 from airflow.providers.postgres.operators.postgres import PostgresOperator
@@ -19,10 +20,7 @@ with DAG('dag_insert_data', default_args = default_args, schedule_interval = '@o
 
     populate_user_purchase_table = GitHubToPostgresTransfer(
         task_id = 'dag_github_to_postgres',
-        username=Variable.get("RDS_USER"),
-        password=Variable.get("RDS_PASS"),
-        endpoint=Variable.get("RDS_ENDPOINT"),
-        dbname=Variable.get("RDS_DBNAME"),
+        conn=BaseHook.get_connection('postgres_default').get_uri(),
         dag=dag
     )
 
