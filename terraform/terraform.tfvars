@@ -64,7 +64,7 @@ db_username = "dbuser"
 publicly_accessible = false
 
 #### S3 variables ####
-bucket_name = "s3-Data-bootcamp-ivan.galaviz-2314134-432432412-32145463"
+bucket_prefix = "s3-data-bootcamp-"
 
 acl = "private"
 

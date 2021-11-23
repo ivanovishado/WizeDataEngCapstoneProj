@@ -53,13 +53,13 @@ module "rds" {
   publicly_accessible = var.publicly_accessible
 }
 
-# module "s3" {
-#   source = "./modules/s3"
+module "s3" {
+  source = "./modules/s3"
 
-#   vpc_id_s3 = module.networking.vpc_id
-#   subnet_s3 = element(var.private_subnets_cidr, 0)
+  vpc_id_s3 = module.networking.vpc_id
+  subnet_s3 = element(var.private_subnets_cidr, 0)
 
-#   bucket_name = var.bucket_name
-#   acl         = var.acl
-#   versioning  = var.versioning
-# }
+  bucket_prefix = var.bucket_prefix
+  acl           = var.acl
+  versioning    = var.versioning
+}
