@@ -22,7 +22,7 @@ def copyFun(bucket, select_query, filename):
             WITH (FORMAT csv, DELIMITER ',', QUOTE '"', HEADER TRUE)"""
     file = io.StringIO()
     cur.copy_expert(query, file)
-    resource.Object(bucket, f'{filename}.csv').put(Body=file.getvalue())
+    resource.Object(bucket, f'data/{filename}.csv').put(Body=file.getvalue())
 
 default_args = {
     'owner': 'ivan.galaviz',
@@ -43,7 +43,7 @@ with DAG('export_postgres_to_s3', default_args = default_args, schedule_interval
         task_id='export_postgres_to_s3',
         python_callable=copyFun,
         op_kwargs={
-            "bucket": Variable.get("USER_PURCHASE_STAGING_BUCKET"),
+            "bucket": Variable.get("STAGING_BUCKET"),
             "select_query": "SELECT * FROM user_purchase;",
             "filename": "user_purchase",
         }
