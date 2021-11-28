@@ -3,7 +3,7 @@ from airflow import DAG
 from airflow.hooks.base_hook import BaseHook
 
 from custom_modules.dag_github_to_postgres import GitHubToPostgresTransfer
-from airflow.providers.postgres.operators import PostgresOperator
+from airflow.providers.postgres.operators.postgres import PostgresOperator
 
 default_args = {
     'owner': 'ivan.galaviz',

@@ -6,7 +6,7 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.utils.dates import days_ago
 from airflow.models import Variable
-from airflow.operators.sensors import ExternalTaskSensor
+from airflow.sensors import ExternalTaskSensor
 
 resource = boto3.resource('s3')
 conn = psycopg2.connect(

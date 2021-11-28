@@ -9,7 +9,7 @@ from airflow.contrib.operators.emr_terminate_job_flow_operator import (
     EmrTerminateJobFlowOperator,
 )
 from airflow.models import Variable
-from airflow.operators.sensors import ExternalTaskSensor
+from airflow.sensors import ExternalTaskSensor
 
 s3_script = "scripts/random_text_classification.py"
 input_path = "data/movie_review.csv"
