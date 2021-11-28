@@ -44,7 +44,7 @@ with DAG('export_postgres_to_s3', default_args = default_args, schedule_interval
         python_callable=copyFun,
         op_kwargs={
             "bucket": Variable.get("STAGING_BUCKET"),
-            "select_query": "SELECT * FROM user_purchase;",
+            "select_query": Variable.get("USER_PURCHASE_DBNAME") + ".user_purchase",
             "filename": "user_purchase",
         }
     )
