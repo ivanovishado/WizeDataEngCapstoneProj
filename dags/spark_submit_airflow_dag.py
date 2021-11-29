@@ -16,6 +16,7 @@ output_path = "data/movie_review.parquet"
 SPARK_STEPS = [
     {
         "Name": "Move raw data from S3 to HDFS",
+        'LogUri': 's3://{{ params.SPARK_BUCKET }}/logs/log.txt',
         "ActionOnFailure": "CANCEL_AND_WAIT",
         "HadoopJarStep": {
             "Jar": "command-runner.jar",

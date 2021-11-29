@@ -26,8 +26,6 @@ conn = psycopg2.connect(
 )
 cur = conn.cursor()
 
-# resource = boto3.resource('s3')
-
 
 def copyFun(bucket, table_name, s3_path):
     query = f"""COPY {table_name} TO STDIN \
@@ -36,7 +34,6 @@ def copyFun(bucket, table_name, s3_path):
     cur.copy_expert(query, file)
     s3 = S3Hook()
     s3.load_string(string_data=file.getvalue(), bucket_name=bucket, replace=True, key=s3_path)
-    # resource.Object(bucket, s3_path).put(Body=file.getvalue())
 
 default_args = {
     'owner': 'ivan.galaviz',

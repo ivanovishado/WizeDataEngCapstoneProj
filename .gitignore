@@ -9,6 +9,7 @@ webserver_config*
 *tfstate*
 override.yaml
 .env
+data/
 
 # should I commit this?
 kubeconfig*

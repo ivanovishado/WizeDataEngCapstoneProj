@@ -20,6 +20,20 @@ airflow standalone
 
 ## Get cluster up and running
 
+If this is your first time using AWS, make sure to check for presence of the `EMR_EC2_DefaultRole` and `EMR_DefaultRole` default role as shown below.
+
+```sh
+aws iam list-roles | grep 'EMR_DefaultRole\|EMR_EC2_DefaultRole'
+# "RoleName": "EMR_DefaultRole",
+# "RoleName": "EMR_EC2_DefaultRole",
+```
+
+If the roles not present, create them using the following command:
+
+```sh
+aws emr create-default-roles
+```
+
 ### Terraform
 
 **Note**: Before anything else, please create the `.env` file in the same location as the `.env.sample` file, following its contents.
@@ -77,11 +91,15 @@ Use this URL to connect to the PostgreSQL instance: `postgresql://ivan.galaviz@h
   - Resources were not being deleted in their entirety with the other approaches.
 - I had to use a hardcoded bucket name to be able to re-upload resources consistently after destroying the services in AWS.
 - Still can't found a way to ignore uploading certain files to Airflow (`*.csv`, `*.md`, etc.)
+- The outputs for the S3 resources can be optimized somehow.
+- The files in S3 should be compressed.
 
 ## TODOs
 
-Should add Docker to test locally (make sure that the major versions match)
-
-Remember to try https://diagrams.mingrammer.com/!
-
-To send info to Postgres: https://stackoverflow.com/a/55495065
+- Remember to try https://diagrams.mingrammer.com/!
+- Do the transformations in the EMR cluster, not in Redshift
+- Read Postgres directly from Airflow to send data to S3, without using Spark
+- Send the output of Spark jobs to S3 as .parquet files
+- Search airflow operator from S3 to Redshift
+- Make sure that Redshift's in the same VPC as everything else
+- Remember to send inser_date from Airflow

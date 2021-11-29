@@ -29,3 +29,19 @@ output "s3_hosted_zone_id_staging" {
 output "s3_bucket_region_staging" {
     value = aws_s3_bucket.staging_layer.region
 }
+
+output "s3_bucket_id_spark" {
+    value = aws_s3_bucket.spark_jobs.id
+}
+output "s3_bucket_arn_spark" {
+    value = aws_s3_bucket.spark_jobs.arn
+}
+output "s3_bucket_domain_name_spark" {
+    value = aws_s3_bucket.spark_jobs.bucket_domain_name
+}
+output "s3_hosted_zone_id_spark" {
+    value = aws_s3_bucket.spark_jobs.hosted_zone_id
+}
+output "s3_bucket_region_spark" {
+    value = aws_s3_bucket.spark_jobs.region
+}
