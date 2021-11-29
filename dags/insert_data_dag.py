@@ -4,7 +4,7 @@ from airflow.hooks.base_hook import BaseHook
 from airflow.providers.postgres.operators.postgres import PostgresOperator
 from airflow.operators.dagrun_operator import TriggerDagRunOperator
 
-from custom_modules.dag_github_to_postgres import GitHubToPostgresTransfer
+from custom_modules.dag_github_to_postgres import GitHubToPostgresOperator
 
 default_args = {
     'owner': 'ivan.galaviz',
@@ -18,10 +18,9 @@ with DAG('dag_insert_data', default_args = default_args, schedule_interval = '@o
         sql="sql/user_purchase_schema.sql",
     )
 
-    populate_user_purchase_table = GitHubToPostgresTransfer(
+    populate_user_purchase_table = GitHubToPostgresOperator(
         task_id = 'dag_github_to_postgres',
-        conn=BaseHook.get_connection('postgres_default').get_uri(),
-        dag=dag
+        conn=BaseHook.get_connection('postgres_default').get_uri()
     )
 
     trigger_postgres_export = TriggerDagRunOperator(

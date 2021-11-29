@@ -8,8 +8,8 @@ from io import StringIO
 from sqlalchemy import create_engine
 
 
-class GitHubToPostgresTransfer(BaseOperator):
-    """GitHubToPostgresTransfer: custom operator created to move small csv files of data
+class GitHubToPostgresOperator(BaseOperator):
+    """GitHubToPostgresOperator: custom operator created to move small csv files of data
                              to a postgresDB, it was created for the bootcamp project.
        Author: Ivan Galaviz.
 
@@ -21,7 +21,7 @@ class GitHubToPostgresTransfer(BaseOperator):
             self,
             conn,
             *args, **kwargs):
-        super(GitHubToPostgresTransfer, self).__init__(*args, **kwargs)
+        super(GitHubToPostgresOperator, self).__init__(*args, **kwargs)
         self.postgres_conn = conn
 
     # Processing ideally shouldn't happen here

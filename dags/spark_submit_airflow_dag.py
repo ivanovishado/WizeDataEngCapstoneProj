@@ -74,14 +74,14 @@ JOB_FLOW_OVERRIDES = {
                 "Name": "Master node",
                 "Market": "SPOT",
                 "InstanceRole": "MASTER",
-                "InstanceType": "m4.xlarge",
+                "InstanceType": "m5.xlarge",
                 "InstanceCount": 1,
             },
             {
                 "Name": "Core - 2",
                 "Market": "SPOT",
                 "InstanceRole": "CORE",
-                "InstanceType": "m4.xlarge",
+                "InstanceType": "m5.xlarge",
                 "InstanceCount": 2,
             },
         ],
@@ -98,8 +98,6 @@ default_args = {
     'start_date': airflow.utils.dates.days_ago(1)
 }
 
-aws_region = "us-east-2"
-
 with DAG(
     "spark_submit_airflow",
     default_args=default_args,
@@ -111,7 +109,7 @@ with DAG(
         job_flow_overrides=JOB_FLOW_OVERRIDES,
         aws_conn_id="aws_default",
         emr_conn_id="emr_default",
-        region_name=aws_region
+        region_name="us-east-2"
     )
 
     step_adder = EmrAddStepsOperator(
