@@ -69,7 +69,7 @@ JOB_FLOW_OVERRIDES = {
         }
     ],
     "Instances": {
-        "Ec2SubnetId": "subnet-06ac81d82a509c895",
+        "Ec2SubnetId": Variable.get("SUBNET_ID"),
         "InstanceGroups": [
             {
                 "Name": "Master node",
