@@ -17,10 +17,10 @@ database = parsed_url.path[1:]
 hostname = parsed_url.hostname
 
 conn = psycopg2.connect(
-    dbname=Variable.get("USER_PURCHASE_DBNAME"),
-    user=Variable.get("USER_PURCHASE_USER"),
-    password=Variable.get("USER_PURCHASE_PASS"),
-    host=Variable.get("USER_PURCHASE_HOST")
+    dbname=database,
+    user=username,
+    password=password,
+    host=hostname
 )
 cur = conn.cursor()
 
