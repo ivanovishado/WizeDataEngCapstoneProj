@@ -26,12 +26,12 @@ with DAG('dag_insert_data', default_args = default_args, schedule_interval = '@o
 
     trigger_postgres_export = TriggerDagRunOperator(
         task_id='trigger_postgres_export',
-        external_dag_id='export_postgres_to_s3'
+        trigger_dag_id='export_postgres_to_s3'
     )
 
     trigger_spark_submit = TriggerDagRunOperator(
         task_id='trigger_spark_submit',
-        external_dag_id='spark_submit_airflow'
+        trigger_dag_id='spark_submit_airflow'
     )
 
 create_user_purchase_table >> populate_user_purchase_table >> [trigger_postgres_export, trigger_spark_submit]
