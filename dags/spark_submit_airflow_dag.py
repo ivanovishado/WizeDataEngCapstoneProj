@@ -98,6 +98,8 @@ default_args = {
     'start_date': airflow.utils.dates.days_ago(1)
 }
 
+aws_region = "us-east-2"
+
 with DAG(
     "spark_submit_airflow",
     default_args=default_args,
@@ -108,7 +110,8 @@ with DAG(
         task_id="create_emr_cluster",
         job_flow_overrides=JOB_FLOW_OVERRIDES,
         aws_conn_id="aws_default",
-        emr_conn_id="emr_default"
+        emr_conn_id="emr_default",
+        region_name=aws_region
     )
 
     step_adder = EmrAddStepsOperator(
@@ -123,7 +126,8 @@ with DAG(
             "s3_script": s3_script,
             "input_path": input_path,
             "output_path": output_path
-        }
+        },
+        region_name=aws_region
     )
 
     last_step = len(SPARK_STEPS) - 1
@@ -133,13 +137,15 @@ with DAG(
         step_id="{{ task_instance.xcom_pull(task_ids='add_steps', key='return_value')["
         + str(last_step)
         + "] }}",
-        aws_conn_id="aws_default"
+        aws_conn_id="aws_default",
+        region_name=aws_region
     )
 
     terminate_emr_cluster = EmrTerminateJobFlowOperator(
         task_id="terminate_emr_cluster",
         job_flow_id="{{ task_instance.xcom_pull(task_ids='create_emr_cluster', key='return_value') }}",
-        aws_conn_id="aws_default"
+        aws_conn_id="aws_default",
+        region_name=aws_region
     )
 
 create_emr_cluster >> step_adder >> step_checker >> terminate_emr_cluster
