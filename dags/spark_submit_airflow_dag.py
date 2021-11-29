@@ -69,19 +69,20 @@ JOB_FLOW_OVERRIDES = {
         }
     ],
     "Instances": {
+        "Ec2SubnetId": "subnet-06ac81d82a509c895",
         "InstanceGroups": [
             {
                 "Name": "Master node",
                 "Market": "SPOT",
                 "InstanceRole": "MASTER",
-                "InstanceType": "m5.xlarge",
+                "InstanceType": "m4.xlarge",
                 "InstanceCount": 1,
             },
             {
                 "Name": "Core - 2",
                 "Market": "SPOT",
                 "InstanceRole": "CORE",
-                "InstanceType": "m5.xlarge",
+                "InstanceType": "m4.xlarge",
                 "InstanceCount": 2,
             },
         ],
