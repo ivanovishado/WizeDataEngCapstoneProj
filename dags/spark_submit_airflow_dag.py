@@ -9,7 +9,6 @@ from airflow.contrib.operators.emr_terminate_job_flow_operator import (
     EmrTerminateJobFlowOperator,
 )
 from airflow.models import Variable
-from airflow.sensors.external_task_sensor import ExternalTaskSensor
 
 s3_script = "scripts/random_text_classification.py"
 input_path = "data/movie_review.csv"
@@ -102,17 +101,9 @@ default_args = {
 with DAG(
     "spark_submit_airflow",
     default_args=default_args,
-    schedule_interval="@once",
+    schedule_interval=None,
     max_active_runs=1,
 ) as dag:
-    wait_for_populate_table = ExternalTaskSensor(
-        task_id='wait_for_populate_table',
-        external_dag_id='dag_insert_data',
-        external_task_id='dag_github_to_postgres',
-        start_date=airflow.utils.dates.days_ago(1),
-        timeout=3600,
-    )
-
     create_emr_cluster = EmrCreateJobFlowOperator(
         task_id="create_emr_cluster",
         job_flow_overrides=JOB_FLOW_OVERRIDES,
@@ -151,4 +142,4 @@ with DAG(
         aws_conn_id="aws_default"
     )
 
-wait_for_populate_table >> create_emr_cluster >> step_adder >> step_checker >> terminate_emr_cluster
+create_emr_cluster >> step_adder >> step_checker >> terminate_emr_cluster
