@@ -1,6 +1,5 @@
 import io
 import psycopg2
-# import boto3
 
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator

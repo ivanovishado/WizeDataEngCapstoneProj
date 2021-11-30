@@ -13,6 +13,7 @@ from airflow.models import Variable
 s3_script = "scripts/random_text_classification.py"
 input_path = "data/movie_review.csv"
 output_path = "data/movie_review.parquet"
+spark_bucket = Variable.get("SPARK_BUCKET")
 SPARK_STEPS = [
     {
         "Name": "Move raw data from S3 to HDFS",
@@ -56,7 +57,7 @@ SPARK_STEPS = [
 JOB_FLOW_OVERRIDES = {
     "Name": "Movie review classifier",
     "ReleaseLabel": "emr-5.29.0",
-    'LogUri': 's3://{{ params.SPARK_BUCKET }}/logs/log.txt',
+    'LogUri': f's3://{spark_bucket}/logs/log.txt',
     "Applications": [{"Name": "Hadoop"}, {"Name": "Spark"}],
     "Configurations": [
         {
@@ -114,13 +115,14 @@ with DAG(
         region_name="us-east-2"
     )
 
+    # There should be a process per task
     step_adder = EmrAddStepsOperator(
         task_id="add_steps",
         job_flow_id="{{ task_instance.xcom_pull(task_ids='create_emr_cluster', key='return_value') }}",
         aws_conn_id="aws_default",
         steps=SPARK_STEPS,
         params={
-            "SPARK_BUCKET": Variable.get("SPARK_BUCKET"),
+            "SPARK_BUCKET": spark_bucket,
             "RAW_BUCKET": Variable.get("RAW_BUCKET"),
             "STAGING_BUCKET": Variable.get("STAGING_BUCKET"),
             "s3_script": s3_script,
