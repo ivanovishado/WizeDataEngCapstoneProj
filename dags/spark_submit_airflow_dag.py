@@ -16,7 +16,6 @@ output_path = "data/movie_review.parquet"
 SPARK_STEPS = [
     {
         "Name": "Move raw data from S3 to HDFS",
-        'LogUri': 's3://{{ params.SPARK_BUCKET }}/logs/log.txt',
         "ActionOnFailure": "CANCEL_AND_WAIT",
         "HadoopJarStep": {
             "Jar": "command-runner.jar",
@@ -57,6 +56,7 @@ SPARK_STEPS = [
 JOB_FLOW_OVERRIDES = {
     "Name": "Movie review classifier",
     "ReleaseLabel": "emr-5.29.0",
+    'LogUri': 's3://{{ params.SPARK_BUCKET }}/logs/log.txt',
     "Applications": [{"Name": "Hadoop"}, {"Name": "Spark"}],
     "Configurations": [
         {
