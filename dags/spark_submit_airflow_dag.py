@@ -12,21 +12,12 @@ from airflow.models import Variable
 
 s3_script = "scripts/random_text_classification.py"
 input_path = "data/movie_review.csv"
-output_path = "data/movie_review.parquet"
+output_path = "data/reviews"
 spark_bucket = Variable.get("SPARK_BUCKET")
+
+# Spark gets the input and stores the output in S3,
+# but HDFS should be preferred for output when performance is a concern
 SPARK_STEPS = [
-    {
-        "Name": "Move raw data from S3 to HDFS",
-        "ActionOnFailure": "CANCEL_AND_WAIT",
-        "HadoopJarStep": {
-            "Jar": "command-runner.jar",
-            "Args": [
-                "s3-dist-cp",
-                "--src=s3://{{ params.RAW_BUCKET }}/{{ params.input_path }}",
-                "--dest=/movie",
-            ],
-        },
-    },
     {
         "Name": "Classify movie reviews",
         "ActionOnFailure": "CANCEL_AND_WAIT",
@@ -36,19 +27,11 @@ SPARK_STEPS = [
                 "spark-submit",
                 "--deploy-mode",
                 "client",
-                "s3://{{ params.SPARK_BUCKET }}/{{ params.s3_script }}"
-            ],
-        },
-    },
-    {
-        "Name": "Move clean data from HDFS to S3",
-        "ActionOnFailure": "CANCEL_AND_WAIT",
-        "HadoopJarStep": {
-            "Jar": "command-runner.jar",
-            "Args": [
-                "s3-dist-cp",
-                "--src=/output",
-                "--dest=s3://{{ params.STAGING_BUCKET }}/{{ params.output_path }}",
+                "s3://{{ params.SPARK_BUCKET }}/{{ params.s3_script }}",
+                "--input",
+                "s3://{{ params.RAW_BUCKET }}/{{ params.input_path }}",
+                "--output",
+                "s3://{{ params.STAGING_BUCKET }}/{{ params.output_path }}",
             ],
         },
     },
@@ -56,8 +39,8 @@ SPARK_STEPS = [
 
 JOB_FLOW_OVERRIDES = {
     "Name": "Movie review classifier",
-    "ReleaseLabel": "emr-5.29.0",
-    'LogUri': f's3://{spark_bucket}/logs/log.txt',
+    "ReleaseLabel": "emr-6.4.0",
+    "LogUri": f"s3://{spark_bucket}/logs/log.txt",
     "Applications": [{"Name": "Hadoop"}, {"Name": "Spark"}],
     "Configurations": [
         {
@@ -96,9 +79,9 @@ JOB_FLOW_OVERRIDES = {
 }
 
 default_args = {
-    'owner': 'ivan.galaviz',
-    'depends_on_past': False,
-    'start_date': airflow.utils.dates.days_ago(1)
+    "owner": "ivan.galaviz",
+    "depends_on_past": False,
+    "start_date": airflow.utils.dates.days_ago(1),
 }
 
 with DAG(
@@ -112,7 +95,7 @@ with DAG(
         job_flow_overrides=JOB_FLOW_OVERRIDES,
         aws_conn_id="aws_default",
         emr_conn_id="emr_default",
-        region_name="us-east-2"
+        region_name="us-east-2",
     )
 
     # There should be a process per task
@@ -127,8 +110,8 @@ with DAG(
             "STAGING_BUCKET": Variable.get("STAGING_BUCKET"),
             "s3_script": s3_script,
             "input_path": input_path,
-            "output_path": output_path
-        }
+            "output_path": output_path,
+        },
     )
 
     last_step = len(SPARK_STEPS) - 1
@@ -138,13 +121,13 @@ with DAG(
         step_id="{{ task_instance.xcom_pull(task_ids='add_steps', key='return_value')["
         + str(last_step)
         + "] }}",
-        aws_conn_id="aws_default"
+        aws_conn_id="aws_default",
     )
 
     terminate_emr_cluster = EmrTerminateJobFlowOperator(
         task_id="terminate_emr_cluster",
         job_flow_id="{{ task_instance.xcom_pull(task_ids='create_emr_cluster', key='return_value') }}",
-        aws_conn_id="aws_default"
+        aws_conn_id="aws_default",
     )
 
 create_emr_cluster >> step_adder >> step_checker >> terminate_emr_cluster

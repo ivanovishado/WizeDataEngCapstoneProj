@@ -10,7 +10,7 @@ from airflow.hooks.S3_hook import S3Hook
 
 from urllib.parse import urlparse
 
-postgres_uri = BaseHook.get_connection('postgres_default').get_uri()
+postgres_uri = BaseHook.get_connection("postgres_default").get_uri()
 parsed_url = urlparse(postgres_uri)
 username = parsed_url.username
 password = parsed_url.password
@@ -18,10 +18,7 @@ database = parsed_url.path[1:]
 hostname = parsed_url.hostname
 
 conn = psycopg2.connect(
-    dbname=database,
-    user=username,
-    password=password,
-    host=hostname
+    dbname=database, user=username, password=password, host=hostname
 )
 cur = conn.cursor()
 
@@ -32,24 +29,29 @@ def copyFun(bucket, table_name, s3_path):
     file = io.StringIO()
     cur.copy_expert(query, file)
     s3 = S3Hook()
-    s3.load_string(string_data=file.getvalue(), bucket_name=bucket, replace=True, key=s3_path)
+    s3.load_string(
+        string_data=file.getvalue(), bucket_name=bucket, replace=True, key=s3_path
+    )
+
 
 default_args = {
-    'owner': 'ivan.galaviz',
-    'depends_on_past': False,
-    'start_date': days_ago(1)
+    "owner": "ivan.galaviz",
+    "depends_on_past": False,
+    "start_date": days_ago(1),
 }
 
 
-with DAG('export_postgres_to_s3', default_args = default_args, schedule_interval = None) as dag:
+with DAG(
+    "export_postgres_to_s3", default_args=default_args, schedule_interval=None
+) as dag:
     export_data = PythonOperator(
-        task_id='export_postgres_to_s3',
+        task_id="export_postgres_to_s3",
         python_callable=copyFun,
         op_kwargs={
             "bucket": Variable.get("STAGING_BUCKET"),
             "table_name": "user_purchase",
             "s3_path": "data/user_purchase.csv",
-        }
+        },
     )
 
 export_data

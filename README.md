@@ -1,24 +1,25 @@
 # My Wizeline Data Engineering Bootcamp Capstone Project
 
-This project's meant to be run in the cloud, but I'm aiming to provide a way to test it locally as well.
+This is my Capstone project which implements a basic pipeline to **extract**, **transform**, and **load** user purchases and movie reviews.
 
 ## Dependencies
 
-- Airflow: Assuming you're using Python 3.9, the easiest way to install Airflow 2.2.0 locally is running this command:
+- [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+- [Helm](https://helm.sh/docs/intro/install/)
+- [Terraform](https://www.terraform.io/downloads.html)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 
-    ```sh
-    pip install 'apache-airflow==2.2.0' --constraint 'https://raw.githubusercontent.com/apache/airflow/constraints-2.2.0/constraints-3.9.txt'
-    ```
+Configure the `AWS CLI` with your credentials by running `aws configure`.
 
-## How to run Airflow locally
+### Local development
 
-First, define the `AIRFLOW_HOME` env variable to wherever you installed it. Then, run:
-
-```sh
-airflow standalone
-```
+- I strongly recommend taking a look to [Airflow Breeze](https://github.com/apache/airflow/blob/main/BREEZE.rst) to execute Airflow in your local environment.
+- There are several ways to install Postgres locally, but I recommend [Postgres.app](https://postgresapp.com/) and [Postico](https://eggerapps.at/postico/) to query it.
+- Then, you can install everything else by running `pip install -r dev-requirements.txt`. Preferably in a virtual environment.
 
 ## Get cluster up and running
+
+### Pre-steps
 
 If this is your first time using AWS, make sure to check for presence of the `EMR_EC2_DefaultRole` and `EMR_DefaultRole` default role as shown below.
 
@@ -28,15 +29,15 @@ aws iam list-roles | grep 'EMR_DefaultRole\|EMR_EC2_DefaultRole'
 # "RoleName": "EMR_EC2_DefaultRole",
 ```
 
-If the roles not present, create them using the following command:
+If the roles are not present, create them using the following command:
 
 ```sh
 aws emr create-default-roles
 ```
 
-### Terraform
+**Note**: Please create the `.env` file in the same location as the `.env.sample` file, following its contents.
 
-**Note**: Before anything else, please create the `.env` file in the same location as the `.env.sample` file, following its contents.
+### Terraform
 
 1. Move to `terraform` directory.
 1. `terraform init`
@@ -66,6 +67,14 @@ kubectl create namespace airflow
 helm repo add apache-airflow https://airflow.apache.org
 ```
 
+Then, run
+
+```sh
+make upload_files_to_s3
+```
+
+To upload the neccessary files to S3.
+
 ### Installing Airflow on Kubernetes
 
 1. Create `override.yaml` at the project's root.
@@ -78,7 +87,7 @@ After that, you can access the webserver with `kubectl port-forward svc/airflow-
 
 ### Considerations while testing on the local environment
 
-Use this URL to connect to the PostgreSQL instance: `postgresql://ivan.galaviz@host.docker.internal:5432/awesome_db`
+- `host.docker.internal` DNS address will resolve to the host's actual address when running inside Docker.
 
 ## Complications during development
 
@@ -97,9 +106,13 @@ Use this URL to connect to the PostgreSQL instance: `postgresql://ivan.galaviz@h
 ## TODOs
 
 - Remember to try https://diagrams.mingrammer.com/!
+- See if EMR hardware can be reduced
+- Convert buckets to private
+- Separate Spark steps in DAG
+- Add `AmazonS3FullAccess` to `EMR_DefaultRole`
+- Add scripts for manual steps
 - Do the transformations in the EMR cluster, not in Redshift
 - Read Postgres directly from Airflow to send data to S3, without using Spark
-- Send the output of Spark jobs to S3 as .parquet files
-- Search airflow operator from S3 to Redshift
 - Make sure that Redshift's in the same VPC as everything else
 - Remember to send inser_date from Airflow
+- Use HDFS in the Spark section
