@@ -24,7 +24,7 @@ class GitHubToPostgresOperator(BaseOperator):
     # Processing ideally shouldn't happen here
     def execute(self, context):
         df = pd.read_csv(
-            "https://raw.githubusercontent.com/ivanovishado/WizeDataEngCapstoneProj/main/user_purchase.csv"
+            "https://raw.githubusercontent.com/ivanovishado/WizeDataEngCapstoneProj/main/data/user_purchase.zip"
         )
 
         engine = create_engine(self.postgres_conn)
