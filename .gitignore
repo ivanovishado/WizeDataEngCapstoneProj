@@ -9,6 +9,6 @@ webserver_config*
 *tfstate*
 override.yaml
 .env
+data/*.csv
 
-# should I commit this?
 kubeconfig*

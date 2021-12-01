@@ -1,4 +1,32 @@
-# Git sync
+###################################
+# Airflow - Common Configs
+###################################
+airflow:
+  executor: CeleryExecutor
+
+###################################
+# Airflow - Worker Configs
+###################################
+workers:
+  ## resource requests/limits for the airflow worker Pods
+  ##
+  ## EXAMPLE:
+  ##   resources:
+  ##     requests:
+  ##       cpu: "1000m"
+  ##       memory: "2Gi"
+  ##
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "1Gi"
+    limits:
+      cpu: "100m"
+      memory: "2Gi"
+
+###################################
+# Airflow - DAGs Configs
+###################################
 dags:
   persistence:
     # Enable persistent volume for storing dags
@@ -27,6 +55,9 @@ dags:
     # should be "" if dags are at repo root
     subPath: "dags"
 
+###################################
+# Airflow - Logs Configs
+###################################
 logs:
   persistence:
     # Enable persistent volume for storing logs
@@ -38,5 +69,11 @@ logs:
 
 secret:
   - envName: "AIRFLOW_CONN_POSTGRES_DEFAULT"
-    secretName: "my-airflow-connections"
+    secretName: "postgres-conn"
     secretKey: "AIRFLOW_CONN_POSTGRES_DEFAULT"
+  - envName: "AIRFLOW_CONN_AWS_DEFAULT"
+    secretName: "aws-conn"
+    secretKey: "AIRFLOW_CONN_AWS_DEFAULT"
+  - envName: "AIRFLOW_CONN_EMR_DEFAULT"
+    secretName: "emr-conn"
+    secretKey: "AIRFLOW_CONN_EMR_DEFAULT"
