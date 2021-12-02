@@ -26,15 +26,15 @@ def random_text_classifier(input_loc, output_loc):
         "cid", array_contains(df_clean.review_clean, "good").alias("positive_review")
     )
 
-    df_res = df_out.select(col("positive_review").cast("integer"))
+    df_res = df_out.select(col("cid"), col("positive_review").cast("integer"))
 
     df_res.write.mode("overwrite").parquet(output_loc)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input", type=str, help="HDFS input", default="/movie")
-    parser.add_argument("--output", type=str, help="HDFS output", default="/output")
+    parser.add_argument("--input", type=str, help="Input", default="/movie")
+    parser.add_argument("--output", type=str, help="Output", default="/output")
     args = parser.parse_args()
     spark = SparkSession.builder.appName("Random Text Classifier").getOrCreate()
     random_text_classifier(input_loc=args.input, output_loc=args.output)

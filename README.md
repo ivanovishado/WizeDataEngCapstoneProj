@@ -13,6 +13,10 @@ Configure the `AWS CLI` with your credentials by running `aws configure`.
 
 ### Local development
 
+- [OpenJDK](https://openjdk.java.net/install/)
+- [Apache Spark](https://formulae.brew.sh/formula/apache-spark)
+- [parquet-tools](https://formulae.brew.sh/formula/parquet-tools)
+- [jenv](https://www.jenv.be/)
 - I strongly recommend taking a look to [Airflow Breeze](https://github.com/apache/airflow/blob/main/BREEZE.rst) to execute Airflow in your local environment.
 - There are several ways to install Postgres locally, but I recommend [Postgres.app](https://postgresapp.com/) and [Postico](https://eggerapps.at/postico/) to query it.
 - Then, you can install everything else by running `pip install -r dev-requirements.txt`. Preferably in a virtual environment.
@@ -35,9 +39,9 @@ If the roles are not present, create them using the following command:
 aws emr create-default-roles
 ```
 
-**Note**: Please create the `.env` file in the same location as the `.env.sample` file, following its contents.
-
 ### Terraform
+
+**Note**: Please create the `terraform/.env` file in the same location as the `terraform/.env.sample` file, following its contents.
 
 1. Move to `terraform` directory.
 1. `terraform init`
@@ -98,8 +102,7 @@ After that, you can access the webserver with `kubectl port-forward svc/airflow-
 - Switched to EKS because of the following reasons:
   - The other TF approaches didn't work.
   - Resources were not being deleted in their entirety with the other approaches.
-- I had to use a hardcoded bucket name to be able to re-upload resources consistently after destroying the services in AWS.
-- Still can't found a way to ignore uploading certain files to Airflow (`*.csv`, `*.md`, etc.)
+- Still can't find a way to ignore uploading certain files to Airflow (`*.csv`, `*.md`, etc.)
 - The outputs for the S3 resources can be optimized somehow.
 - The files in S3 should be compressed.
 
@@ -116,3 +119,5 @@ After that, you can access the webserver with `kubectl port-forward svc/airflow-
 - Make sure that Redshift's in the same VPC as everything else
 - Remember to send inser_date from Airflow
 - Use HDFS in the Spark section
+- Improve IAM access
+- Ask if the index in user_purchase.csv is needed

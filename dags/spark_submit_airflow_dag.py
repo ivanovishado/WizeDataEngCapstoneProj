@@ -10,9 +10,12 @@ from airflow.contrib.operators.emr_terminate_job_flow_operator import (
 )
 from airflow.models import Variable
 
-s3_script = "scripts/random_text_classification.py"
-input_path = "data/movie_review.csv"
-output_path = "data/reviews"
+classification_s3_script = "scripts/random_text_classification.py"
+user_behavior_s3_script = "scripts/user_behavior_metrics.py"
+reviews_input_path = "data/movie_review.csv"
+purchases_input_path = "data/user_purchase.csv"
+classification_output_path = "data/reviews"
+user_behavior_output_path = "data/behavior"
 spark_bucket = Variable.get("SPARK_BUCKET")
 
 # Spark gets the input and stores the output in S3,
@@ -27,11 +30,32 @@ SPARK_STEPS = [
                 "spark-submit",
                 "--deploy-mode",
                 "client",
-                "s3://{{ params.SPARK_BUCKET }}/{{ params.s3_script }}",
+                "s3://{{ params.SPARK_BUCKET }}/{{ params.classification_s3_script }}",
                 "--input",
-                "s3://{{ params.RAW_BUCKET }}/{{ params.input_path }}",
+                "s3://{{ params.RAW_BUCKET }}/{{ params.reviews_input_path }}",
                 "--output",
-                "s3://{{ params.STAGING_BUCKET }}/{{ params.output_path }}",
+                "s3://{{ params.STAGING_BUCKET }}/{{ params.classification_output_path }}",
+            ],
+        },
+    },
+    {
+        "Name": "Calculate user behavior metrics",
+        "ActionOnFailure": "CANCEL_AND_WAIT",
+        "HadoopJarStep": {
+            "Jar": "command-runner.jar",
+            "Args": [
+                "spark-submit",
+                "--deploy-mode",
+                "client",
+                "s3://{{ params.SPARK_BUCKET }}/{{ params.user_behavior_s3_script }}",
+                "--reviews",
+                "s3://{{ params.STAGING_BUCKET }}/{{ params.classification_output_path }}",
+                "--purchases",
+                "s3://{{ params.RAW_BUCKET }}/{{ params.purchases_input_path }}",
+                "--date",
+                "{{ ts }}",
+                "--output",
+                "s3://{{ params.STAGING_BUCKET }}/{{ params.user_behavior_output_path }}",
             ],
         },
     },
@@ -108,9 +132,12 @@ with DAG(
             "SPARK_BUCKET": spark_bucket,
             "RAW_BUCKET": Variable.get("RAW_BUCKET"),
             "STAGING_BUCKET": Variable.get("STAGING_BUCKET"),
-            "s3_script": s3_script,
-            "input_path": input_path,
-            "output_path": output_path,
+            "user_behavior_s3_script": user_behavior_s3_script,
+            "classification_s3_script": classification_s3_script,
+            "reviews_input_path": reviews_input_path,
+            "classification_output_path": classification_output_path,
+            "purchases_input_path": purchases_input_path,
+            "user_behavior_output_path": user_behavior_output_path,
         },
     )
 
