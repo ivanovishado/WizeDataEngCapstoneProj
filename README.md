@@ -121,3 +121,8 @@ After that, you can access the webserver with `kubectl port-forward svc/airflow-
 - Use HDFS in the Spark section
 - Improve IAM access
 - Ask if the index in user_purchase.csv is needed
+- Destroy the EMR cluster even if the steps failed
+- Check how streaming can be applied to the pipeline
+- Add alerts to the pipeline
+- Automate Redshift access
+- Change Airflow timestamp to `yyyy-mm-dd HH:mm:ss.SSSSSS`
