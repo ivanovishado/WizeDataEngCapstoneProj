@@ -69,3 +69,14 @@ bucket_prefix = "s3-data-bootcamp-"
 acl = "private"
 
 versioning = true
+
+#### Redshift variables ####
+
+cluster_identifier = "my-redshift-cluster"
+node_type = "dc2.large"
+cluster_type = "single-node"
+number_of_nodes = 1
+master_username = "rs_user"
+skip_final_snapshot = true
+db_port_redshift = 5440
+rs_publicly_accessible = false

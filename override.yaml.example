@@ -1,4 +1,20 @@
 extraSecrets:
-  my-airflow-connections:
+  postgres-conn:
     data: |
-      AIRFLOW_CONN_POSTGRES_DEFAULT: 'base64(postgres_conn_url)'
+      AIRFLOW_CONN_POSTGRES_DEFAULT: 'base64(postgres_conn)'
+  aws-conn:
+    data: |
+      AIRFLOW_CONN_AWS_DEFAULT: 'base64(aws_conn)'
+  emr-conn:
+    data: |
+      AIRFLOW_CONN_EMR_DEFAULT: 'base64(emr_conn)'
+
+env:
+  - name: "AIRFLOW_VAR_STAGING_BUCKET"
+    value: "some-bucket-id"
+  - name: "AIRFLOW_VAR_RAW_BUCKET"
+    value: "some-bucket-id"
+  - name: "AIRFLOW_VAR_SPARK_BUCKET"
+    value: "some-bucket-id"
+  - name: "AIRFLOW_VAR_SUBNET_ID"
+    value: "some-subnet-id"

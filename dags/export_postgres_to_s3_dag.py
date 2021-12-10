@@ -22,8 +22,8 @@ conn = psycopg2.connect(
 )
 cur = conn.cursor()
 
-
-def copyFun(bucket, table_name, s3_path):
+# This function could return a Python Operator
+def copy_fun(bucket, table_name, s3_path):
     query = f"""COPY {table_name} TO STDIN \
             WITH (FORMAT csv, DELIMITER ',', QUOTE '"', HEADER TRUE)"""
     file = io.StringIO()
@@ -46,7 +46,7 @@ with DAG(
 ) as dag:
     export_data = PythonOperator(
         task_id="export_postgres_to_s3",
-        python_callable=copyFun,
+        python_callable=copy_fun,
         op_kwargs={
             "bucket": Variable.get("STAGING_BUCKET"),
             "table_name": "user_purchase",

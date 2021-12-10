@@ -33,6 +33,9 @@ with DAG(
         task_id="trigger_spark_submit", trigger_dag_id="spark_submit_airflow"
     )
 
+# Ideally, the DAGs should not trigger others
+# An idea would be to create a dummy file to see if the DAG was completed successfully
+
 (
     create_user_purchase_table
     >> populate_user_purchase_table
