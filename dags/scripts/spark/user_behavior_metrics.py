@@ -12,7 +12,7 @@ from pyspark.sql.functions import (
 )
 from pyspark.sql.types import DoubleType, IntegerType
 
-
+# Add logging
 def calculate_user_behavior_metrics(
     reviews_loc, purchases_loc, insert_date, output_loc
 ):
@@ -53,6 +53,8 @@ def calculate_user_behavior_metrics(
     joined_dfs = user_purchases.join(
         movie_reviews, movie_reviews.cid == user_purchases.CustomerID
     ).drop("cid")
+
+    # Could be changed to use .select()
     joined_dfs = joined_dfs.withColumn(
         "CustomerID", joined_dfs["CustomerID"].cast(IntegerType())
     )

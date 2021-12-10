@@ -20,6 +20,8 @@ spark_bucket = Variable.get("SPARK_BUCKET")
 
 # Spark gets the input and stores the output in S3,
 # but HDFS should be preferred for output when performance is a concern
+
+# These can be put inside a function for portability
 SPARK_STEPS = [
     {
         "Name": "Classify movie reviews",
@@ -29,7 +31,7 @@ SPARK_STEPS = [
             "Args": [
                 "spark-submit",
                 "--deploy-mode",
-                "client",
+                "client",  # Can be changed to cluster
                 "s3://{{ params.SPARK_BUCKET }}/{{ params.classification_s3_script }}",
                 "--input",
                 "s3://{{ params.RAW_BUCKET }}/{{ params.reviews_input_path }}",
@@ -61,6 +63,7 @@ SPARK_STEPS = [
     },
 ]
 
+# Could add a function
 JOB_FLOW_OVERRIDES = {
     "Name": "Movie review classifier",
     "ReleaseLabel": "emr-6.4.0",
@@ -82,7 +85,7 @@ JOB_FLOW_OVERRIDES = {
         "InstanceGroups": [
             {
                 "Name": "Master node",
-                "Market": "SPOT",
+                "Market": "SPOT",  # Could be changed for ON-DEMAND for a more important project
                 "InstanceRole": "MASTER",
                 "InstanceType": "m4.xlarge",
                 "InstanceCount": 1,
@@ -119,7 +122,7 @@ with DAG(
         job_flow_overrides=JOB_FLOW_OVERRIDES,
         aws_conn_id="aws_default",
         emr_conn_id="emr_default",
-        region_name="us-east-2",
+        region_name="us-east-2",  # Could go in a variable
     )
 
     # There should be a process per task

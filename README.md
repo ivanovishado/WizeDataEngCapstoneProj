@@ -104,25 +104,18 @@ After that, you can access the webserver with `kubectl port-forward svc/airflow-
   - Resources were not being deleted in their entirety with the other approaches.
 - Still can't find a way to ignore uploading certain files to Airflow (`*.csv`, `*.md`, etc.)
 - The outputs for the S3 resources can be optimized somehow.
-- The files in S3 should be compressed.
 
 ## TODOs
 
-- Remember to try https://diagrams.mingrammer.com/!
 - See if EMR hardware can be reduced
 - Convert buckets to private
 - Separate Spark steps in DAG
 - Add `AmazonS3FullAccess` to `EMR_DefaultRole`
 - Add scripts for manual steps
-- Do the transformations in the EMR cluster, not in Redshift
-- Read Postgres directly from Airflow to send data to S3, without using Spark
-- Make sure that Redshift's in the same VPC as everything else
-- Remember to send inser_date from Airflow
 - Use HDFS in the Spark section
 - Improve IAM access
-- Ask if the index in user_purchase.csv is needed
 - Destroy the EMR cluster even if the steps failed
 - Check how streaming can be applied to the pipeline
 - Add alerts to the pipeline
 - Automate Redshift access
-- Change Airflow timestamp to `yyyy-mm-dd HH:mm:ss.SSSSSS`
+- Compress files in S3.
